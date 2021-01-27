@@ -52,7 +52,7 @@ quadrant_sums rgb_sums(rgb_pixel *restrict pixels, uint32_t width, uint32_t heig
 
 static intensity_data rgb_to_luma(quadrant_sums sums, raster_data data)
 {
-    double dim = ((data.width + 1lu) & ~1lu) * ((data.height + 1lu) & ~1lu);
+    double dim = ((data.width + 1lu) & ~1lu) * ((data.height + 1lu) & ~1lu) / 4;
 
     double nw_luma = ((sums.nw.r / dim * sRGB_R_Y) +
                       (sums.nw.g / dim * sRGB_G_Y) +
