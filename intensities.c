@@ -52,23 +52,23 @@ quadrant_sums rgb_sums(rgb_pixel *restrict pixels, uint32_t width, uint32_t heig
 
 static intensity_data rgb_to_luma(quadrant_sums sums, raster_data data)
 {
-    double dim = MAX(data.width * data.height / 4.0, 1);
+    double dim = ((data.width + 1lu) & ~1lu) * ((data.height + 1lu) & ~1lu);
 
-    double nw_luma = ((sums.nw.r / dim * 0.2126) +
-                      (sums.nw.g / dim * 0.7152) +
-                      (sums.nw.b / dim * 0.0772)) / 3.0;
+    double nw_luma = ((sums.nw.r / dim * sRGB_R_Y) +
+                      (sums.nw.g / dim * sRGB_G_Y) +
+                      (sums.nw.b / dim * sRGB_B_Y));
 
-    double ne_luma = ((sums.ne.r / dim * 0.2126) +
-                      (sums.ne.g / dim * 0.7152) +
-                      (sums.ne.b / dim * 0.0772)) / 3.0;
+    double ne_luma = ((sums.ne.r / dim * sRGB_R_Y) +
+                      (sums.ne.g / dim * sRGB_G_Y) +
+                      (sums.ne.b / dim * sRGB_B_Y));
 
-    double sw_luma = ((sums.sw.r / dim * 0.2126) +
-                      (sums.sw.g / dim * 0.7152) +
-                      (sums.sw.b / dim * 0.0772)) / 3.0;
+    double sw_luma = ((sums.sw.r / dim * sRGB_R_Y) +
+                      (sums.sw.g / dim * sRGB_G_Y) +
+                      (sums.sw.b / dim * sRGB_B_Y));
 
-    double se_luma = ((sums.se.r / dim * 0.2126) +
-                      (sums.se.g / dim * 0.7152) +
-                      (sums.se.b / dim * 0.0772)) / 3.0;
+    double se_luma = ((sums.se.r / dim * sRGB_R_Y) +
+                      (sums.se.g / dim * sRGB_G_Y) +
+                      (sums.se.b / dim * sRGB_B_Y));
 
     return (struct intensity_data) {
         .nw = nw_luma,

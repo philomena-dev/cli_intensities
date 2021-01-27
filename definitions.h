@@ -4,6 +4,9 @@
 #include <stdint.h>
 
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
+#define sRGB_R_Y 0.2126
+#define sRGB_G_Y 0.7152
+#define sRGB_B_Y 0.0722
 
 typedef struct rgb_pixel {
     uint8_t r;
