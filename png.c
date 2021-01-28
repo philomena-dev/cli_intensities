@@ -53,6 +53,7 @@ raster_data read_png_file(const char *file_name)
     png_set_expand(png_ptr);
     png_set_scale_16(png_ptr);
     png_set_gray_to_rgb(png_ptr);
+    png_set_alpha_mode(png_ptr, PNG_ALPHA_PNG, PNG_DEFAULT_sRGB);
     png_set_background(png_ptr, &black, PNG_BACKGROUND_GAMMA_SCREEN, 0, 1);
     png_set_interlace_handling(png_ptr);
     png_read_update_info(png_ptr, info_ptr);
