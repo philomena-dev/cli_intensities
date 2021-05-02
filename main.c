@@ -2,15 +2,23 @@
 #include <magic.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-static const char *mime_type(const char *filename)
+static char *mime_type(const char *filename)
 {
-    const char *ret;
-    magic_t magic = magic_open(MAGIC_MIME_TYPE);
+    magic_t magic;
+    const char *mime;
+    char *ret;
+
+    magic = magic_open(MAGIC_MIME_TYPE);
     magic_load(magic, NULL);
 
-    ret = magic_file(magic, filename);
+    mime = magic_file(magic, filename);
+    if (mime) {
+        ret = strdup(mime);
+    }
 
+    magic_close(magic);
     return ret;
 }
 
@@ -28,7 +36,7 @@ static int print_data(intensity_data data)
 
 int main(int argc, char *argv[])
 {
-    const char *file_mime;
+    char *file_mime;
     intensity_data data;
 
     if (argc != 2) {
@@ -38,14 +46,15 @@ int main(int argc, char *argv[])
 
     file_mime = mime_type(argv[1]);
 
-    if (strcmp(file_mime, "image/png") == 0) {
+    if (file_mime != NULL && strcmp(file_mime, "image/png") == 0) {
         data = png_intensities(argv[1]);
-    } else if (strcmp(file_mime, "image/jpeg") == 0) {
+    } else if (file_mime != NULL && strcmp(file_mime, "image/jpeg") == 0) {
         data = jpeg_intensities(argv[1]);
     } else {
-        fprintf(stderr, "Unrecognized file type `%s'\n", file_mime);
+        fprintf(stderr, "Unrecognized file type\n");
         return 1;
     }
 
+    free(file_mime);
     return print_data(data);
 }
