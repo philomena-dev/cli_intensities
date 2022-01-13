@@ -63,6 +63,7 @@ JPEG_OBJECTS := turbojpeg/jsimd_none.o \
 		turbojpeg/jdatasrc-tj.o \
 		turbojpeg/rdbmp.o \
 		turbojpeg/rdppm.o \
+		turbojpeg/tjutil.o \
 		turbojpeg/wrbmp.o \
 		turbojpeg/wrppm.o
 
