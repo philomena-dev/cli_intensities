@@ -19,6 +19,8 @@ raster_data read_png_file(const char *file_name)
     png_bytep *row_pointers = NULL;
     int error = 0;
     raster_data data = {};
+    png_structp png_ptr = NULL;
+    png_infop info_ptr = NULL;
 
     fp = fopen(file_name, "rb");
     if (fp == NULL) {
@@ -28,8 +30,8 @@ raster_data read_png_file(const char *file_name)
 
     // These lines will not fail under any usual circumstances, so it's okay
     // to leak the png ptr if the info ptr can't be allocated
-    png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, user_warning_fn);
-    png_infop info_ptr = png_create_info_struct(png_ptr);
+    png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, user_warning_fn);
+    info_ptr = png_create_info_struct(png_ptr);
 
     if (!png_ptr || !info_ptr) {
         error = 1;
